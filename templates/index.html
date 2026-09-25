@@ -123,6 +123,24 @@
 <div class="container">
 
     <h1>🃏 Blackjack</h1>
+    <div style="margin: 15px 0;">
+    <input
+        type="text"
+        id="playerName"
+        placeholder="Enter your name"
+        maxlength="20"
+        style="padding: 12px; border-radius: 8px; border: none; font-size: 16px;"
+    >
+
+    <button
+        id="saveNameBtn"
+        style="background: #f5c542;"
+    >
+        Save Name
+    </button>
+</div>
+
+<div id="welcomeMessage"></div>
 
     <div class="balance">
         Virtual Coins: <span id="coins">1000</span>
@@ -169,6 +187,21 @@
 </div>
 
 <script>
+    const playerNameInput = document.getElementById("playerName");
+const saveNameBtn = document.getElementById("saveNameBtn");
+const welcomeMessage = document.getElementById("welcomeMessage");
+
+saveNameBtn.addEventListener("click", function () {
+
+    const name = playerNameInput.value.trim();
+
+    if (name === "") {
+        welcomeMessage.textContent = "Please enter your name!";
+        return;
+    }
+
+    welcomeMessage.textContent = "Welcome, " + name + "! 🎮";
+});
 
 let deck = [];
 let playerHand = [];
