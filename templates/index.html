@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack Game</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0b3d2e;
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 30px 15px;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .balance {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        .table {
+            background: #126b4f;
+            border-radius: 25px;
+            padding: 30px 20px;
+            min-height: 450px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .section {
+            margin: 25px 0;
+        }
+
+        .section h2 {
+            margin-bottom: 15px;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            min-height: 90px;
+        }
+
+        .card {
+            width: 65px;
+            height: 90px;
+            background: white;
+            color: black;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .hidden-card {
+            background: #222;
+            color: white;
+        }
+
+        .score {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        button {
+            border: none;
+            border-radius: 10px;
+            padding: 14px 25px;
+            margin: 8px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #hitBtn {
+            background: #f5c542;
+        }
+
+        #standBtn {
+            background: #ffffff;
+        }
+
+        #newBtn {
+            background: #e74c3c;
+            color: white;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #message {
+            font-size: 25px;
+            font-weight: bold;
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🃏 Blackjack</h1>
+
+    <div class="balance">
+        Virtual Coins: <span id="coins">1000</span>
+    </div>
+
+    <div class="table">
+
+        <div class="section">
+            <h2>Dealer</h2>
+
+            <div id="dealerCards" class="cards"></div>
+
+            <div class="score">
+                Dealer Score:
+                <span id="dealerScore">?</span>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="section">
+            <h2>Player</h2>
+
+            <div id="playerCards" class="cards"></div>
+
+            <div class="score">
+                Your Score:
+                <span id="playerScore">0</span>
+            </div>
+        </div>
+
+        <div id="message">
+            Start the game!
+        </div>
+
+        <div>
+            <button id="hitBtn">Hit</button>
+            <button id="standBtn">Stand</button>
+            <button id="newBtn">New Game</button>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+let deck = [];
+let playerHand = [];
+let dealerHand = [];
+
+let coins = 1000;
+let gameOver = false;
+
+const suits = ["♠", "♥", "♦", "♣"];
+
+const values = [
+    {name: "A", value: 11},
+    {name: "2", value: 2},
+    {name: "3", value: 3},
+    {name: "4", value: 4},
+    {name: "5", value: 5},
+    {name: "6", value: 6},
+    {name: "7", value: 7},
+    {name: "8", value: 8},
+    {name: "9", value: 9},
+    {name: "10", value: 10},
+    {name: "J", value: 10},
+    {name: "Q", value: 10},
+    {name: "K", value: 10}
+];
+
+function createDeck() {
+
+    deck = [];
+
+    for (let suit of suits) {
+
+        for (let card of values) {
+
+            deck.push({
+                name: card.name,
+                value: card.value,
+                suit: suit
+            });
+
+        }
+
+    }
+
+    deck.sort(() => Math.random() - 0.5);
+}
+
+function drawCard() {
+    return deck.pop();
+}
+
+function calculateScore(hand) {
+
+    let score = 0;
+    let aces = 0;
+
+    for (let card of hand) {
+
+        score += card.value;
+
+        if (card.name === "A") {
+            aces++;
+        }
+    }
+
+    while (score > 21 && aces > 0) {
+        score -= 10;
+        aces--;
+    }
+
+    return score;
+}
+
+function displayCard(card) {
+
+    return `
+        <div class="card">
+            ${card.name}${card.suit}
+        </div>
+    `;
+}
+
+function updateScreen(showDealerCards = false) {
+
+    const playerCards = document.getElementById("playerCards");
+    const dealerCards = document.getElementById("dealerCards");
+
+    playerCards.innerHTML =
+        playerHand.map(displayCard).join("");
+
+    if (showDealerCards) {
+
+        dealerCards.innerHTML =
+            dealerHand.map(displayCard).join("");
+
+    } else {
+
+        dealerCards.innerHTML =
+            displayCard(dealerHand[0]) +
+            `<div class="card hidden-card">?</div>`;
+
+    }
+
+    document.getElementById("playerScore").textContent =
+        calculateScore(playerHand);
+
+    document.getElementById("dealerScore").textContent =
+        showDealerCards
+        ? calculateScore(dealerHand)
+        : "?";
+
+    document.getElementById("coins").textContent = coins;
+}
+
+function newGame() {
+
+    createDeck();
+
+    playerHand = [
+        drawCard(),
+        drawCard()
+    ];
+
+    dealerHand = [
+        drawCard(),
+        drawCard()
+    ];
+
+    gameOver = false;
+
+    document.getElementById("message").textContent =
+        "Your turn!";
+
+    document.getElementById("hitBtn").disabled = false;
+    document.getElementById("standBtn").disabled = false;
+
+    updateScreen(false);
+
+    if (calculateScore(playerHand) === 21) {
+        stand();
+    }
+}
+
+function hit() {
+
+    if (gameOver) return;
+
+    playerHand.push(drawCard());
+
+    updateScreen(false);
+
+    let score = calculateScore(playerHand);
+
+    if (score > 21) {
+
+        gameOver = true;
+
+        coins -= 100;
+
+        document.getElementById("message").textContent =
+            "Bust! You lose 100 virtual coins.";
+
+        document.getElementById("hitBtn").disabled = true;
+        document.getElementById("standBtn").disabled = true;
+
+        updateScreen(false);
+    }
+}
+
+function stand() {
+
+    if (gameOver) return;
+
+    while (calculateScore(dealerHand) < 17) {
+
+        dealerHand.push(drawCard());
+    }
+
+    let playerScore = calculateScore(playerHand);
+    let dealerScore = calculateScore(dealerHand);
+
+    gameOver = true;
+
+    let message = "";
+
+    if (playerScore > 21) {
+
+        coins -= 100;
+        message = "Bust! You lose 100 virtual coins.";
+
+    } else if (dealerScore > 21) {
+
+        coins += 100;
+        message = "Dealer busts! You win 100 virtual coins.";
+
+    } else if (playerScore > dealerScore) {
+
+        coins += 100;
+        message = "🎉 You win 100 virtual coins!";
+
+    } else if (playerScore < dealerScore) {
+
+        coins -= 100;
+        message = "Dealer wins. You lose 100 virtual coins.";
+
+    } else {
+
+        message = "Draw! No coins changed.";
+    }
+
+    document.getElementById("message").textContent = message;
+
+    document.getElementById("hitBtn").disabled = true;
+    document.getElementById("standBtn").disabled = true;
+
+    updateScreen(true);
+}
+
+document.getElementById("hitBtn").addEventListener("click", hit);
+
+document.getElementById("standBtn").addEventListener("click", stand);
+
+document.getElementById("newBtn").addEventListener("click", newGame);
+
+newGame();
+
+</script>
+
+</body>
+</html>
