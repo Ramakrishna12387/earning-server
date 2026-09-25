@@ -1,434 +1,855 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blackjack Game</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #0b3d2e;
-            color: white;
-            text-align: center;
-        }
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-        .container {
-            max-width: 900px;
-            margin: auto;
-            padding: 30px 15px;
-        }
+<title>White Jack</title>
 
-        h1 {
-            font-size: 40px;
-            margin-bottom: 10px;
-        }
+<style>
 
-        .balance {
-            font-size: 20px;
-            margin-bottom: 30px;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        .table {
-            background: #126b4f;
-            border-radius: 25px;
-            padding: 30px 20px;
-            min-height: 450px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-        }
+body {
 
-        .section {
-            margin: 25px 0;
-        }
+    margin: 0;
 
-        .section h2 {
-            margin-bottom: 15px;
-        }
+    font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
 
-        .cards {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            min-height: 90px;
-        }
+    background:
+    radial-gradient(
+        circle at top,
+        #263238,
+        #080b0f 60%
+    );
 
-        .card {
-            width: 65px;
-            height: 90px;
-            background: white;
-            color: black;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 25px;
-            font-weight: bold;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
+    color: white;
 
-        .hidden-card {
-            background: #222;
-            color: white;
-        }
+    min-height: 100vh;
 
-        .score {
-            font-size: 20px;
-            margin-top: 10px;
-        }
+}
 
-        button {
-            border: none;
-            border-radius: 10px;
-            padding: 14px 25px;
-            margin: 8px;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-        }
 
-        #hitBtn {
-            background: #f5c542;
-        }
+.container {
 
-        #standBtn {
-            background: #ffffff;
-        }
+    width: 95%;
 
-        #newBtn {
-            background: #e74c3c;
-            color: white;
-        }
+    max-width: 900px;
 
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+    margin: auto;
 
-        #message {
-            font-size: 25px;
-            font-weight: bold;
-            margin: 20px;
-        }
-    </style>
+    padding: 25px 0 50px;
+
+}
+
+
+.header {
+
+    text-align: center;
+
+    margin-bottom: 25px;
+
+}
+
+
+.logo {
+
+    font-size: 45px;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+}
+
+
+.subtitle {
+
+    color: #aaa;
+
+    margin-top: 5px;
+
+}
+
+
+.player-card {
+
+    background: rgba(255,255,255,0.08);
+
+    border: 1px solid rgba(255,255,255,0.12);
+
+    border-radius: 20px;
+
+    padding: 20px;
+
+    margin-bottom: 20px;
+
+    backdrop-filter: blur(10px);
+
+}
+
+
+.player-name {
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+}
+
+
+.coins {
+
+    font-size: 32px;
+
+    font-weight: bold;
+
+    margin-top: 8px;
+
+}
+
+
+.stats {
+
+    display: grid;
+
+    grid-template-columns:
+    repeat(3, 1fr);
+
+    gap: 10px;
+
+    margin-top: 15px;
+
+}
+
+
+.stat {
+
+    background: rgba(255,255,255,0.07);
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    text-align: center;
+
+}
+
+
+.stat-number {
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+}
+
+
+.game {
+
+    background:
+    linear-gradient(
+        145deg,
+        #0b5d3b,
+        #063622
+    );
+
+    border-radius: 25px;
+
+    padding: 25px;
+
+    min-height: 430px;
+
+    box-shadow:
+    0 20px 50px
+    rgba(0,0,0,0.5);
+
+}
+
+
+.section-title {
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    margin-bottom: 15px;
+
+}
+
+
+.cards {
+
+    display: flex;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+
+}
+
+
+.card {
+
+    width: 90px;
+
+    height: 125px;
+
+    background: white;
+
+    color: #111;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    box-shadow:
+    0 8px 15px
+    rgba(0,0,0,0.3);
+
+}
+
+
+.total {
+
+    margin-top: 12px;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+}
+
+
+.buttons {
+
+    display: flex;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    margin-top: 30px;
+
+}
+
+
+button {
+
+    border: none;
+
+    border-radius: 12px;
+
+    padding: 15px 25px;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+
+.play {
+
+    background: #ffd54f;
+
+    color: #111;
+
+}
+
+
+.leaderboard {
+
+    background: #ffffff;
+
+    color: #111;
+
+}
+
+
+button:hover {
+
+    transform: translateY(-2px);
+
+}
+
+
+.result {
+
+    text-align: center;
+
+    font-size: 25px;
+
+    font-weight: bold;
+
+    margin-top: 25px;
+
+    min-height: 35px;
+
+}
+
+
+.leaderboard-box {
+
+    margin-top: 20px;
+
+    background:
+    rgba(0,0,0,0.35);
+
+    border-radius: 15px;
+
+    padding: 20px;
+
+    display: none;
+
+}
+
+
+.rank {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 12px;
+
+    border-bottom:
+    1px solid
+    rgba(255,255,255,0.1);
+
+}
+
+
+@media(max-width:600px) {
+
+    .logo {
+
+        font-size: 34px;
+
+    }
+
+    .stats {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .card {
+
+        width: 70px;
+
+        height: 100px;
+
+    }
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
 
-    <h1>🃏 Blackjack</h1>
-    <div style="margin: 15px 0;">
-    <input
-        type="text"
-        id="playerName"
-        placeholder="Enter your name"
-        maxlength="20"
-        style="padding: 12px; border-radius: 8px; border: none; font-size: 16px;"
-    >
 
-    <button
-        id="saveNameBtn"
-        style="background: #f5c542;"
-    >
-        Save Name
-    </button>
+<div class="header">
+
+<div class="logo">
+♠ WHITE JACK ♠
 </div>
 
-<div id="welcomeMessage"></div>
-
-    <div class="balance">
-        Virtual Coins: <span id="coins">1000</span>
-    </div>
-
-    <div class="table">
-
-        <div class="section">
-            <h2>Dealer</h2>
-
-            <div id="dealerCards" class="cards"></div>
-
-            <div class="score">
-                Dealer Score:
-                <span id="dealerScore">?</span>
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="section">
-            <h2>Player</h2>
-
-            <div id="playerCards" class="cards"></div>
-
-            <div class="score">
-                Your Score:
-                <span id="playerScore">0</span>
-            </div>
-        </div>
-
-        <div id="message">
-            Start the game!
-        </div>
-
-        <div>
-            <button id="hitBtn">Hit</button>
-            <button id="standBtn">Stand</button>
-            <button id="newBtn">New Game</button>
-        </div>
-
-    </div>
+<div class="subtitle">
+Virtual Coin Blackjack
+</div>
 
 </div>
+
+
+<div class="player-card">
+
+<div class="player-name">
+👤 Krishna
+</div>
+
+<div class="coins">
+🪙 <span id="coins">Loading...</span>
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-number"
+id="wins">
+0
+</div>
+
+<div>Wins</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-number"
+id="losses">
+0
+</div>
+
+<div>Losses</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-number"
+id="games">
+0
+</div>
+
+<div>Games</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="game">
+
+
+<div class="section-title">
+Dealer
+</div>
+
+<div class="cards"
+id="dealerCards">
+
+<div class="card">?</div>
+
+<div class="card">?</div>
+
+</div>
+
+
+<div class="total"
+id="dealerTotal">
+Dealer Total: -
+</div>
+
+
+<br>
+
+
+<div class="section-title">
+Your Cards
+</div>
+
+<div class="cards"
+id="playerCards">
+
+<div class="card">?</div>
+
+<div class="card">?</div>
+
+</div>
+
+
+<div class="total"
+id="playerTotal">
+Your Total: -
+</div>
+
+
+<div class="result"
+id="result">
+Ready to Play
+</div>
+
+
+<div class="buttons">
+
+<button
+class="play"
+onclick="playBlackjack()">
+
+🃏 PLAY WHITE JACK
+
+</button>
+
+
+<button
+class="leaderboard"
+onclick="showLeaderboard()">
+
+🏆 LEADERBOARD
+
+</button>
+
+</div>
+
+
+<div
+class="leaderboard-box"
+id="leaderboardBox">
+
+<h3>🏆 Top Players</h3>
+
+<div id="leaderboardList"></div>
+
+</div>
+
+
+</div>
+
+</div>
+
 
 <script>
-    const playerNameInput = document.getElementById("playerName");
-const saveNameBtn = document.getElementById("saveNameBtn");
-const welcomeMessage = document.getElementById("welcomeMessage");
 
-saveNameBtn.addEventListener("click", function () {
 
-    const name = playerNameInput.value.trim();
+const API =
+"http://127.0.0.1:5000";
 
-    if (name === "") {
-        welcomeMessage.textContent = "Please enter your name!";
-        return;
+const playerName =
+"Krishna";
+
+
+async function createPlayer() {
+
+    try {
+
+        await fetch(
+            API + "/player",
+            {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body: JSON.stringify({
+                    name: playerName
+                })
+
+            }
+        );
+
     }
 
-    welcomeMessage.textContent = "Welcome, " + name + "! 🎮";
-});
+    catch(error) {
 
-let deck = [];
-let playerHand = [];
-let dealerHand = [];
+        console.log(error);
 
-let coins = 1000;
-let gameOver = false;
+    }
 
-const suits = ["♠", "♥", "♦", "♣"];
+}
 
-const values = [
-    {name: "A", value: 11},
-    {name: "2", value: 2},
-    {name: "3", value: 3},
-    {name: "4", value: 4},
-    {name: "5", value: 5},
-    {name: "6", value: 6},
-    {name: "7", value: 7},
-    {name: "8", value: 8},
-    {name: "9", value: 9},
-    {name: "10", value: 10},
-    {name: "J", value: 10},
-    {name: "Q", value: 10},
-    {name: "K", value: 10}
-];
 
-function createDeck() {
+async function loadPlayer() {
 
-    deck = [];
+    try {
 
-    for (let suit of suits) {
+        const response =
+        await fetch(
+            API +
+            "/player/" +
+            encodeURIComponent(playerName)
+        );
 
-        for (let card of values) {
+        const data =
+        await response.json();
 
-            deck.push({
-                name: card.name,
-                value: card.value,
-                suit: suit
-            });
+
+        document.getElementById(
+            "coins"
+        ).textContent =
+        data.coins;
+
+
+        document.getElementById(
+            "wins"
+        ).textContent =
+        data.wins;
+
+
+        document.getElementById(
+            "losses"
+        ).textContent =
+        data.losses;
+
+
+        document.getElementById(
+            "games"
+        ).textContent =
+        data.games_played;
+
+    }
+
+    catch(error) {
+
+        document.getElementById(
+            "coins"
+        ).textContent =
+        "Server Offline";
+
+        console.log(error);
+
+    }
+
+}
+
+
+function displayCards(
+    elementId,
+    cards
+) {
+
+    const container =
+    document.getElementById(
+        elementId
+    );
+
+    container.innerHTML = "";
+
+
+    cards.forEach(card => {
+
+        const div =
+        document.createElement(
+            "div"
+        );
+
+        div.className = "card";
+
+        div.textContent = card;
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+async function playBlackjack() {
+
+    const resultElement =
+    document.getElementById(
+        "result"
+    );
+
+
+    resultElement.textContent =
+    "🃏 Dealing cards...";
+
+
+    try {
+
+        const response =
+        await fetch(
+            API + "/blackjack",
+            {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    name: playerName
+
+                })
+
+            }
+        );
+
+
+        const data =
+        await response.json();
+
+
+        if (!response.ok) {
+
+            resultElement.textContent =
+            data.error ||
+            "Game error";
+
+            return;
 
         }
 
-    }
 
-    deck.sort(() => Math.random() - 0.5);
-}
+        displayCards(
+            "playerCards",
+            data.player_cards
+        );
 
-function drawCard() {
-    return deck.pop();
-}
 
-function calculateScore(hand) {
+        displayCards(
+            "dealerCards",
+            data.dealer_cards
+        );
 
-    let score = 0;
-    let aces = 0;
 
-    for (let card of hand) {
+        document.getElementById(
+            "playerTotal"
+        ).textContent =
+        "Your Total: " +
+        data.player_total;
 
-        score += card.value;
 
-        if (card.name === "A") {
-            aces++;
-        }
-    }
+        document.getElementById(
+            "dealerTotal"
+        ).textContent =
+        "Dealer Total: " +
+        data.dealer_total;
 
-    while (score > 21 && aces > 0) {
-        score -= 10;
-        aces--;
-    }
 
-    return score;
-}
+        resultElement.textContent =
+        data.message;
 
-function displayCard(card) {
 
-    return `
-        <div class="card">
-            ${card.name}${card.suit}
-        </div>
-    `;
-}
-
-function updateScreen(showDealerCards = false) {
-
-    const playerCards = document.getElementById("playerCards");
-    const dealerCards = document.getElementById("dealerCards");
-
-    playerCards.innerHTML =
-        playerHand.map(displayCard).join("");
-
-    if (showDealerCards) {
-
-        dealerCards.innerHTML =
-            dealerHand.map(displayCard).join("");
-
-    } else {
-
-        dealerCards.innerHTML =
-            displayCard(dealerHand[0]) +
-            `<div class="card hidden-card">?</div>`;
+        loadPlayer();
 
     }
 
-    document.getElementById("playerScore").textContent =
-        calculateScore(playerHand);
+    catch(error) {
 
-    document.getElementById("dealerScore").textContent =
-        showDealerCards
-        ? calculateScore(dealerHand)
-        : "?";
+        resultElement.textContent =
+        "❌ Server connection error";
 
-    document.getElementById("coins").textContent = coins;
-}
+        console.log(error);
 
-function newGame() {
-
-    createDeck();
-
-    playerHand = [
-        drawCard(),
-        drawCard()
-    ];
-
-    dealerHand = [
-        drawCard(),
-        drawCard()
-    ];
-
-    gameOver = false;
-
-    document.getElementById("message").textContent =
-        "Your turn!";
-
-    document.getElementById("hitBtn").disabled = false;
-    document.getElementById("standBtn").disabled = false;
-
-    updateScreen(false);
-
-    if (calculateScore(playerHand) === 21) {
-        stand();
-    }
-}
-
-function hit() {
-
-    if (gameOver) return;
-
-    playerHand.push(drawCard());
-
-    updateScreen(false);
-
-    let score = calculateScore(playerHand);
-
-    if (score > 21) {
-
-        gameOver = true;
-
-        coins -= 100;
-
-        document.getElementById("message").textContent =
-            "Bust! You lose 100 virtual coins.";
-
-        document.getElementById("hitBtn").disabled = true;
-        document.getElementById("standBtn").disabled = true;
-
-        updateScreen(false);
-    }
-}
-
-function stand() {
-
-    if (gameOver) return;
-
-    while (calculateScore(dealerHand) < 17) {
-
-        dealerHand.push(drawCard());
     }
 
-    let playerScore = calculateScore(playerHand);
-    let dealerScore = calculateScore(dealerHand);
-
-    gameOver = true;
-
-    let message = "";
-
-    if (playerScore > 21) {
-
-        coins -= 100;
-        message = "Bust! You lose 100 virtual coins.";
-
-    } else if (dealerScore > 21) {
-
-        coins += 100;
-        message = "Dealer busts! You win 100 virtual coins.";
-
-    } else if (playerScore > dealerScore) {
-
-        coins += 100;
-        message = "🎉 You win 100 virtual coins!";
-
-    } else if (playerScore < dealerScore) {
-
-        coins -= 100;
-        message = "Dealer wins. You lose 100 virtual coins.";
-
-    } else {
-
-        message = "Draw! No coins changed.";
-    }
-
-    document.getElementById("message").textContent = message;
-
-    document.getElementById("hitBtn").disabled = true;
-    document.getElementById("standBtn").disabled = true;
-
-    updateScreen(true);
 }
 
-document.getElementById("hitBtn").addEventListener("click", hit);
 
-document.getElementById("standBtn").addEventListener("click", stand);
+async function showLeaderboard() {
 
-document.getElementById("newBtn").addEventListener("click", newGame);
+    const box =
+    document.getElementById(
+        "leaderboardBox"
+    );
 
-newGame();
+    const list =
+    document.getElementById(
+        "leaderboardList"
+    );
+
+
+    box.style.display =
+    "block";
+
+
+    list.innerHTML =
+    "Loading...";
+
+
+    try {
+
+        const response =
+        await fetch(
+            API + "/leaderboard"
+        );
+
+
+        const players =
+        await response.json();
+
+
+        list.innerHTML = "";
+
+
+        players.forEach(
+            (player, index) => {
+
+                const row =
+                document.createElement(
+                    "div"
+                );
+
+                row.className =
+                "rank";
+
+
+                row.innerHTML = `
+
+                    <span>
+                    #${index + 1}
+                    ${player.name}
+                    </span>
+
+                    <strong>
+                    🪙 ${player.coins}
+                    </strong>
+
+                `;
+
+
+                list.appendChild(row);
+
+            }
+        );
+
+    }
+
+    catch(error) {
+
+        list.innerHTML =
+        "Unable to load leaderboard.";
+
+    }
+
+}
+
+
+async function start() {
+
+    await createPlayer();
+
+    await loadPlayer();
+
+}
+
+
+start();
 
 </script>
 
+
 </body>
+
 </html>

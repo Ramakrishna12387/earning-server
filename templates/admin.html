@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>White Jack Admin</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #071d16;
+            color: white;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 30px 15px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #10382b;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #285443;
+        }
+
+        th {
+            background: #d4af37;
+            color: #111;
+        }
+
+        tr:hover {
+            background: #174b3a;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>♠ WHITE JACK — ADMIN DASHBOARD ♠</h1>
+
+    {% if players %}
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Player</th>
+                <th>Coins</th>
+                <th>Wins</th>
+                <th>Losses</th>
+                <th>Games</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% for player in players %}
+
+            <tr>
+                <td>{{ player.id }}</td>
+                <td>{{ player.name }}</td>
+                <td>🪙 {{ player.coins }}</td>
+                <td>{{ player.wins }}</td>
+                <td>{{ player.losses }}</td>
+                <td>{{ player.games_played }}</td>
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    {% else %}
+
+        <div class="empty">
+            No players registered yet.
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

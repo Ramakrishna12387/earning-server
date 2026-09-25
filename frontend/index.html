@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Coin Arena</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+
+    font-family: Arial, sans-serif;
+
+    min-height: 100vh;
+
+    background:
+        radial-gradient(circle at top, #243b55, #0f172a 55%, #020617);
+
+    color: white;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 20px;
+}
+
+.app {
+
+    width: 450px;
+
+    max-width: 100%;
+
+    background: rgba(15, 23, 42, 0.95);
+
+    border: 1px solid rgba(255,255,255,0.1);
+
+    border-radius: 25px;
+
+    padding: 25px;
+
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.header {
+
+    text-align: center;
+
+    margin-bottom: 25px;
+}
+
+.logo {
+
+    font-size: 45px;
+
+    margin-bottom: 8px;
+}
+
+.title {
+
+    font-size: 30px;
+
+    font-weight: bold;
+}
+
+.subtitle {
+
+    color: #94a3b8;
+
+    margin-top: 5px;
+}
+
+.player-card {
+
+    background: linear-gradient(
+        135deg,
+        #1e3a8a,
+        #312e81
+    );
+
+    padding: 20px;
+
+    border-radius: 18px;
+
+    text-align: center;
+
+    margin-bottom: 18px;
+}
+
+.player-name {
+
+    font-size: 22px;
+
+    font-weight: bold;
+}
+
+.coin-box {
+
+    margin-top: 12px;
+
+    font-size: 42px;
+
+    font-weight: bold;
+}
+
+.coin-label {
+
+    font-size: 14px;
+
+    color: #cbd5e1;
+}
+
+.stats {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 10px;
+
+    margin-bottom: 18px;
+}
+
+.stat {
+
+    background: #1e293b;
+
+    border-radius: 15px;
+
+    padding: 15px 8px;
+
+    text-align: center;
+}
+
+.stat-icon {
+
+    font-size: 22px;
+}
+
+.stat-value {
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    margin-top: 5px;
+}
+
+.stat-label {
+
+    color: #94a3b8;
+
+    font-size: 12px;
+
+    margin-top: 3px;
+}
+
+.play-button {
+
+    width: 100%;
+
+    border: none;
+
+    padding: 17px;
+
+    border-radius: 14px;
+
+    background: #22c55e;
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.play-button:hover {
+
+    transform: translateY(-2px);
+
+    background: #16a34a;
+}
+
+.play-button:disabled {
+
+    opacity: 0.6;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+.leader-button {
+
+    width: 100%;
+
+    border: none;
+
+    padding: 15px;
+
+    margin-top: 10px;
+
+    border-radius: 14px;
+
+    background: #334155;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.message {
+
+    text-align: center;
+
+    min-height: 28px;
+
+    margin: 18px 0;
+
+    font-size: 16px;
+
+    font-weight: bold;
+}
+
+.leaderboard {
+
+    display: none;
+
+    margin-top: 15px;
+}
+
+.leaderboard h2 {
+
+    text-align: center;
+
+    margin-bottom: 12px;
+}
+
+.rank {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    background: #1e293b;
+
+    padding: 13px;
+
+    border-radius: 10px;
+
+    margin-top: 8px;
+}
+
+.rank-name {
+
+    font-weight: bold;
+}
+
+.rank-coins {
+
+    color: #facc15;
+
+    font-weight: bold;
+}
+
+.refresh {
+
+    text-align: center;
+
+    color: #64748b;
+
+    font-size: 12px;
+
+    margin-top: 20px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <div class="header">
+
+        <div class="logo">🎮</div>
+
+        <div class="title">
+            Coin Arena
+        </div>
+
+        <div class="subtitle">
+            Play • Win • Collect Coins
+        </div>
+
+    </div>
+
+
+    <div class="player-card">
+
+        <div class="player-name">
+
+            👤 <span id="playerName">
+                Krishna
+            </span>
+
+        </div>
+
+        <div class="coin-box">
+
+            🪙 <span id="coins">
+                0
+            </span>
+
+        </div>
+
+        <div class="coin-label">
+            Available Coins
+        </div>
+
+    </div>
+
+
+    <div class="stats">
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🏆
+            </div>
+
+            <div class="stat-value"
+                 id="wins">
+                0
+            </div>
+
+            <div class="stat-label">
+                Wins
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ❌
+            </div>
+
+            <div class="stat-value"
+                 id="losses">
+                0
+            </div>
+
+            <div class="stat-label">
+                Losses
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🎮
+            </div>
+
+            <div class="stat-value"
+                 id="games">
+                0
+            </div>
+
+            <div class="stat-label">
+                Games
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <button
+        class="play-button"
+        id="playButton"
+        onclick="playGame()">
+
+        🎲 PLAY GAME
+
+    </button>
+
+
+    <button
+        class="leader-button"
+        onclick="showLeaderboard()">
+
+        🏆 VIEW LEADERBOARD
+
+    </button>
+
+
+    <div
+        class="message"
+        id="message">
+
+    </div>
+
+
+    <div
+        class="leaderboard"
+        id="leaderboard">
+
+    </div>
+
+
+    <div class="refresh">
+
+        Backend connected • Flask API
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+const API =
+    "http://127.0.0.1:5000";
+
+
+const playerName =
+    "Krishna";
+
+
+async function loadPlayer() {
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                `${API}/player/${playerName}`
+            );
+
+
+        const player =
+            await response.json();
+
+
+        if (player.error) {
+
+            document.getElementById(
+                "message"
+            ).innerText =
+                player.error;
+
+            return;
+        }
+
+
+        document.getElementById(
+            "playerName"
+        ).innerText =
+            player.name;
+
+
+        document.getElementById(
+            "coins"
+        ).innerText =
+            player.coins;
+
+
+        document.getElementById(
+            "wins"
+        ).innerText =
+            player.wins;
+
+
+        document.getElementById(
+            "losses"
+        ).innerText =
+            player.losses;
+
+
+        document.getElementById(
+            "games"
+        ).innerText =
+            player.games_played;
+
+
+    }
+
+    catch (error) {
+
+
+        document.getElementById(
+            "message"
+        ).innerText =
+            "❌ Server connection failed";
+
+
+    }
+
+}
+
+
+
+async function playGame() {
+
+
+    const button =
+        document.getElementById(
+            "playButton"
+        );
+
+
+    button.disabled = true;
+
+
+    document.getElementById(
+        "message"
+    ).innerText =
+        "🎲 Game in progress...";
+
+
+    await new Promise(
+        resolve =>
+            setTimeout(resolve, 800)
+    );
+
+
+    const result =
+        Math.random() < 0.5
+            ? "win"
+            : "loss";
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                `${API}/game-result`,
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        name:
+                            playerName,
+
+                        result:
+                            result
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (data.error) {
+
+            document.getElementById(
+                "message"
+            ).innerText =
+                "❌ " + data.error;
+
+            button.disabled = false;
+
+            return;
+        }
+
+
+        if (result === "win") {
+
+
+            document.getElementById(
+                "message"
+            ).innerText =
+                "🏆 YOU WON! +100 COINS";
+
+
+        } else {
+
+
+            document.getElementById(
+                "message"
+            ).innerText =
+                "❌ YOU LOST! -50 COINS";
+
+
+        }
+
+
+        await loadPlayer();
+
+
+    }
+
+    catch (error) {
+
+
+        document.getElementById(
+            "message"
+        ).innerText =
+            "❌ Server connection failed";
+
+
+    }
+
+
+    button.disabled = false;
+
+}
+
+
+
+async function showLeaderboard() {
+
+
+    const box =
+        document.getElementById(
+            "leaderboard"
+        );
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                `${API}/leaderboard`
+            );
+
+
+        const players =
+            await response.json();
+
+
+        let html =
+            "<h2>🏆 Leaderboard</h2>";
+
+
+        players.forEach(
+            (player, index) => {
+
+
+                html += `
+
+                    <div class="rank">
+
+                        <div class="rank-name">
+
+                            ${index + 1}.
+                            ${player.name}
+
+                        </div>
+
+                        <div class="rank-coins">
+
+                            🪙
+                            ${player.coins}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+
+        box.innerHTML =
+            html;
+
+
+        box.style.display =
+            "block";
+
+
+    }
+
+    catch (error) {
+
+
+        box.innerHTML =
+            "<p>❌ Unable to load leaderboard</p>";
+
+        box.style.display =
+            "block";
+
+    }
+
+}
+
+
+loadPlayer();
+
+
+</script>
+
+
+</body>
+
+</html>
