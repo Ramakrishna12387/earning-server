@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import random
@@ -35,9 +35,7 @@ with app.app_context():
 
 @app.route("/")
 def home():
-    return jsonify({
-        "message": "White Jack Earning Server is running!"
-    })
+    return send_from_directory("frontend", "index.html")
 
 
 # =========================
@@ -50,12 +48,16 @@ def create_player():
     data = request.get_json()
 
     if not data:
-        return jsonify({"error": "JSON data is required"}), 400
+        return jsonify({
+            "error": "JSON data is required"
+        }), 400
 
     name = data.get("name", "").strip()
 
     if not name:
-        return jsonify({"error": "Name is required"}), 400
+        return jsonify({
+            "error": "Name is required"
+        }), 400
 
     player = Player.query.filter_by(name=name).first()
 
@@ -274,7 +276,6 @@ def blackjack():
             "error": "Player not found"
         }), 404
 
-
     # Card deck
 
     cards = [
@@ -282,26 +283,22 @@ def blackjack():
         10, 10, 10, 11
     ]
 
-
     player_card_1 = random.choice(cards)
     player_card_2 = random.choice(cards)
 
     dealer_card_1 = random.choice(cards)
     dealer_card_2 = random.choice(cards)
 
-
     player_total = player_card_1 + player_card_2
     dealer_total = dealer_card_1 + dealer_card_2
 
-
-    # Simple Ace handling
+    # Ace handling
 
     if player_total > 21:
         player_total -= 10
 
     if dealer_total > 21:
         dealer_total -= 10
-
 
     # Result
 
@@ -325,11 +322,9 @@ def blackjack():
 
         result = "draw"
 
-
     # Coins
 
     player.games_played += 1
-
 
     if result == "win":
 
@@ -352,9 +347,7 @@ def blackjack():
 
         message = "DRAW! NO COINS"
 
-
     db.session.commit()
-
 
     return jsonify({
 
