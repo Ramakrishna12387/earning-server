@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: earning-server-1
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn backend.app:app

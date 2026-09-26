@@ -1,715 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>White Jack</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #07111f, #102a43);
-            color: white;
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 92%;
-            max-width: 900px;
-            margin: auto;
-            padding: 25px 0 50px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .header h1 {
-            font-size: 42px;
-            margin: 10px 0;
-        }
-
-        .header p {
-            color: #b9c7d8;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
-        }
-
-        .player-box {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        input {
-            flex: 1;
-            min-width: 200px;
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-        }
-
-        button {
-            border: none;
-            padding: 13px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 15px;
-            margin: 5px;
-        }
-
-        .primary {
-            background: #00d084;
-            color: #04130d;
-        }
-
-        .secondary {
-            background: #287bff;
-            color: white;
-        }
-
-        .danger {
-            background: #ff4d5a;
-            color: white;
-        }
-
-        .dark {
-            background: #26384d;
-            color: white;
-        }
-
-        button:disabled {
-            opacity: 0.45;
-            cursor: not-allowed;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .stat {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 14px;
-            padding: 15px;
-            text-align: center;
-        }
-
-        .stat small {
-            display: block;
-            color: #aebdce;
-            margin-bottom: 8px;
-        }
-
-        .stat strong {
-            font-size: 22px;
-        }
-
-        .game-area {
-            display: none;
-        }
-
-        .game-title {
-            text-align: center;
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-
-        .hand {
-            margin: 20px 0;
-        }
-
-        .hand h3 {
-            margin-bottom: 12px;
-        }
-
-        .cards {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .playing-card {
-            width: 70px;
-            height: 95px;
-            background: white;
-            color: #111;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 25px;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .total {
-            margin-top: 10px;
-            font-size: 18px;
-            color: #b9c7d8;
-        }
-
-        .result {
-            text-align: center;
-            font-size: 28px;
-            font-weight: bold;
-            margin: 20px 0;
-            min-height: 35px;
-        }
-
-        .actions {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .message {
-            text-align: center;
-            margin: 15px 0;
-            color: #c9d6e5;
-        }
-
-        .leaderboard {
-            display: none;
-        }
-
-        .leader-row {
-            display: grid;
-            grid-template-columns: 50px 1fr 100px 80px;
-            padding: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer {
-            text-align: center;
-            color: #71849a;
-            margin-top: 25px;
-            font-size: 13px;
-        }
-
-        @media (max-width: 650px) {
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .header h1 {
-                font-size: 34px;
-            }
-
-            .leader-row {
-                grid-template-columns: 40px 1fr 80px;
-            }
-
-            .leader-row span:last-child {
-                display: none;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 
-    <div class="container">
+    <!-- ================= LOGIN SCREEN ================= -->
+    <section id="loginScreen" class="screen login-screen">
 
-        <div class="header">
-            <h1>🃏 WHITE JACK</h1>
-            <p>Virtual Coin Blackjack Game</p>
-        </div>
+        <div class="login-card">
 
-
-        <!-- PLAYER -->
-        <div class="card">
-
-            <h2>👤 Player</h2>
-
-            <div class="player-box">
-
-                <input type="text" id="playerName" placeholder="Enter your name" value="Krishna">
-
-                <button class="primary" onclick="loginPlayer()">
-                    LOGIN / CREATE
-                </button>
-
+            <div class="logo">
+                <span>♠</span>
+                WHITE JACK
+                <span>♠</span>
             </div>
 
-            <div class="message" id="playerMessage">
-                Enter your name and start playing.
-            </div>
+            <p class="subtitle">
+                Virtual Blackjack Game
+            </p>
 
-            <div class="stats">
+            <input
+                type="text"
+                id="usernameInput"
+                placeholder="Enter your username"
+                maxlength="30"
+                autocomplete="off"
+            >
 
-                <div class="stat">
-                    <small>💰 Coins</small>
-                    <strong id="coins">-</strong>
-                </div>
+            <button id="loginButton" class="primary-btn">
+                ENTER GAME
+            </button>
 
-                <div class="stat">
-                    <small>🏆 Wins</small>
-                    <strong id="wins">-</strong>
-                </div>
+            <p id="loginMessage" class="message"></p>
 
-                <div class="stat">
-                    <small>❌ Losses</small>
-                    <strong id="losses">-</strong>
-                </div>
-
-                <div class="stat">
-                    <small>🎮 Games</small>
-                    <strong id="games">-</strong>
-                </div>
-
+            <div class="virtual-note">
+                🪙 Virtual coins only — No real-money betting.
             </div>
 
         </div>
 
+    </section>
 
-        <!-- GAME -->
-        <div class="card game-area" id="gameArea">
 
-            <div class="game-title">
-                🃏 White Jack Table
+    <!-- ================= MAIN GAME SCREEN ================= -->
+    <section id="gameScreen" class="screen hidden">
+
+        <!-- HEADER -->
+        <header class="top-header">
+
+            <div class="brand">
+                ♠ WHITE JACK
             </div>
 
+            <div class="coin-display">
+                🪙 <span id="topCoins">0</span>
+            </div>
 
-            <!-- DEALER -->
+        </header>
 
-            <div class="hand">
 
-                <h3>🤵 Dealer</h3>
+        <!-- NAVIGATION -->
+        <nav class="navigation">
 
-                <div class="cards" id="dealerCards"></div>
+            <button class="nav-btn active" data-page="gamePage">
+                🎮 Game
+            </button>
 
-                <div class="total">
-                    Dealer Total:
-                    <strong id="dealerTotal">-</strong>
+            <button class="nav-btn" data-page="profilePage">
+                👤 Profile
+            </button>
+
+            <button class="nav-btn" data-page="leaderboardPage">
+                🏆 Leaderboard
+            </button>
+
+            <button class="nav-btn" data-page="historyPage">
+                📜 History
+            </button>
+
+            <button id="logoutButton" class="nav-btn logout-btn">
+                🚪 Logout
+            </button>
+
+        </nav>
+
+
+        <!-- ================= GAME PAGE ================= -->
+        <main id="gamePage" class="page">
+
+            <!-- PLAYER STATS -->
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <span>🪙 Coins</span>
+                    <strong id="coins">0</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>🏆 Wins</span>
+                    <strong id="wins">0</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>❌ Losses</span>
+                    <strong id="losses">0</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>🎮 Games</span>
+                    <strong id="games">0</strong>
                 </div>
 
             </div>
 
 
-            <!-- PLAYER -->
+            <!-- GAME TABLE -->
+            <section class="game-table">
 
-            <div class="hand">
-
-                <h3>👤 You</h3>
-
-                <div class="cards" id="playerCards"></div>
-
-                <div class="total">
-                    Your Total:
-                    <strong id="playerTotal">-</strong>
+                <div class="table-title">
+                    <h1>BLACKJACK</h1>
+                    <p>Beat the dealer without going over 21</p>
                 </div>
 
-            </div>
 
+                <!-- DEALER -->
+                <div class="hand-section">
 
-            <div class="result" id="result"></div>
+                    <div class="hand-header">
+                        <h2>Dealer</h2>
 
+                        <div class="score-box">
+                            Score:
+                            <span id="dealerScore">-</span>
+                        </div>
+                    </div>
 
-            <div class="actions">
+                    <div id="dealerCards" class="cards">
+                        <div class="empty-card">?</div>
+                    </div>
 
-                <button class="primary" id="playButton" onclick="playGame()">
-                    🎴 PLAY WHITE JACK
-                </button>
+                </div>
 
-            </div>
 
-        </div>
+                <div class="divider"></div>
 
 
-        <!-- LEADERBOARD -->
+                <!-- PLAYER -->
+                <div class="hand-section">
 
-        <div class="card leaderboard" id="leaderboardArea">
+                    <div class="hand-header">
+                        <h2 id="playerTitle">Player</h2>
 
-            <h2>🏆 Leaderboard</h2>
+                        <div class="score-box">
+                            Score:
+                            <span id="playerScore">-</span>
+                        </div>
+                    </div>
 
-            <div class="leader-row">
-                <strong>#</strong>
-                <strong>Player</strong>
-                <strong>Coins</strong>
-                <strong>Wins</strong>
-            </div>
+                    <div id="playerCards" class="cards">
+                        <div class="empty-card">?</div>
+                    </div>
 
-            <div id="leaderboardList"></div>
+                </div>
 
-        </div>
 
+                <!-- MESSAGE -->
+                <div id="gameMessage" class="game-message">
+                    Select a bet and start the game.
+                </div>
 
-        <div class="card">
 
-            <div style="text-align:center">
+                <!-- BET AREA -->
+                <div class="bet-section">
 
-                <button class="secondary" onclick="showLeaderboard()">
-                    🏆 Leaderboard
-                </button>
+                    <h3>Select Bet</h3>
 
-                <button class="dark" onclick="hideLeaderboard()">
-                    ✖ Hide
-                </button>
+                    <div class="bet-buttons">
 
-            </div>
+                        <button class="bet-btn selected" data-bet="10">
+                            🪙 10
+                        </button>
 
-        </div>
+                        <button class="bet-btn" data-bet="50">
+                            🪙 50
+                        </button>
 
+                        <button class="bet-btn" data-bet="100">
+                            🪙 100
+                        </button>
 
-        <div class="footer">
-            White Jack uses virtual coins only.
-        </div>
+                        <button class="bet-btn" data-bet="500">
+                            🪙 500
+                        </button>
 
-    </div>
+                    </div>
 
+                </div>
 
-    <script>
 
-        // IMPORTANT:
-        // Same server will be used locally and on Render.
-        const API = window.location.origin;
+                <!-- GAME BUTTONS -->
+                <div class="game-buttons">
 
-        let currentPlayer = "";
+                    <button id="startButton" class="primary-btn">
+                        ▶ START GAME
+                    </button>
 
+                    <button id="hitButton" class="action-btn" disabled>
+                        🃏 HIT
+                    </button>
 
-        // =========================
-        // LOGIN / CREATE PLAYER
-        // =========================
+                    <button id="standButton" class="action-btn" disabled>
+                        ✋ STAND
+                    </button>
 
-        async function loginPlayer() {
+                </div>
 
-            const nameInput = document.getElementById("playerName");
+            </section>
 
-            const name = nameInput.value.trim();
+        </main>
 
-            if (!name) {
 
-                alert("Please enter your name.");
+        <!-- ================= PROFILE PAGE ================= -->
+        <main id="profilePage" class="page hidden">
 
-                return;
-            }
+            <section class="content-card">
 
-            try {
+                <h1>👤 My Profile</h1>
 
-                const response = await fetch(API + "/player", {
+                <div class="profile-avatar">
+                    ♠
+                </div>
 
-                    method: "POST",
+                <h2 id="profileName">
+                    Player
+                </h2>
 
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+                <div class="profile-grid">
 
-                    body: JSON.stringify({
-                        name: name
-                    })
+                    <div>
+                        <span>Coins</span>
+                        <strong id="profileCoins">0</strong>
+                    </div>
 
-                });
+                    <div>
+                        <span>Wins</span>
+                        <strong id="profileWins">0</strong>
+                    </div>
 
+                    <div>
+                        <span>Losses</span>
+                        <strong id="profileLosses">0</strong>
+                    </div>
 
-                const data = await response.json();
+                    <div>
+                        <span>Games Played</span>
+                        <strong id="profileGames">0</strong>
+                    </div>
 
+                </div>
 
-                if (!response.ok) {
+            </section>
 
-                    alert(data.error || "Unable to create player.");
+        </main>
 
-                    return;
-                }
 
+        <!-- ================= LEADERBOARD PAGE ================= -->
+        <main id="leaderboardPage" class="page hidden">
 
-                currentPlayer = data.name;
+            <section class="content-card">
 
+                <h1>🏆 Leaderboard</h1>
 
-                updateStats(data);
+                <p class="page-description">
+                    Players with the highest virtual coin balance
+                </p>
 
+                <div class="table-container">
 
-                document.getElementById("gameArea").style.display = "block";
+                    <table>
 
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Player</th>
+                                <th>Coins</th>
+                                <th>Wins</th>
+                                <th>Games</th>
+                            </tr>
+                        </thead>
 
-                document.getElementById("playerMessage").innerText =
-                    "Welcome " + currentPlayer + "! Ready to play.";
+                        <tbody id="leaderboardBody">
 
+                            <tr>
+                                <td colspan="5">
+                                    Loading...
+                                </td>
+                            </tr>
 
-                document.getElementById("result").innerText = "";
+                        </tbody>
 
+                    </table>
 
-            } catch (error) {
+                </div>
 
-                console.error(error);
+            </section>
 
-                alert(
-                    "Server connection failed.\n\n" +
-                    "Make sure Flask server is running."
-                );
-            }
-        }
+        </main>
 
 
-        // =========================
-        // UPDATE PLAYER STATS
-        // =========================
+        <!-- ================= HISTORY PAGE ================= -->
+        <main id="historyPage" class="page hidden">
 
-        function updateStats(data) {
+            <section class="content-card">
 
-            document.getElementById("coins").innerText =
-                data.coins ?? "-";
+                <h1>📜 Game History</h1>
 
-            document.getElementById("wins").innerText =
-                data.wins ?? "-";
+                <p class="page-description">
+                    Your recent games
+                </p>
 
-            document.getElementById("losses").innerText =
-                data.losses ?? "-";
+                <div class="table-container">
 
-            document.getElementById("games").innerText =
-                data.games_played ?? "-";
-        }
+                    <table>
 
+                        <thead>
+                            <tr>
+                                <th>Result</th>
+                                <th>Bet</th>
+                                <th>Player</th>
+                                <th>Dealer</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
 
-        // =========================
-        // PLAY WHITE JACK
-        // =========================
+                        <tbody id="historyBody">
 
-        async function playGame() {
+                            <tr>
+                                <td colspan="5">
+                                    No games yet.
+                                </td>
+                            </tr>
 
-            if (!currentPlayer) {
+                        </tbody>
 
-                alert("Please login first.");
+                    </table>
 
-                return;
-            }
+                </div>
 
+            </section>
 
-            const button = document.getElementById("playButton");
+        </main>
 
-            button.disabled = true;
 
-            button.innerText = "🎴 DEALING...";
+        <!-- FOOTER -->
+        <footer>
 
+            <p>
+                ♠ White Jack
+            </p>
 
-            try {
+            <p>
+                Virtual coins only • No real-money betting
+            </p>
 
-                const response = await fetch(API + "/blackjack", {
+        </footer>
 
-                    method: "POST",
+    </section>
 
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
 
-                    body: JSON.stringify({
-                        name: currentPlayer
-                    })
-
-                });
-
-
-                const data = await response.json();
-
-
-                if (!response.ok) {
-
-                    alert(data.error || "Game error.");
-
-                    return;
-                }
-
-
-                displayCards(
-                    "playerCards",
-                    data.player_cards
-                );
-
-
-                displayCards(
-                    "dealerCards",
-                    data.dealer_cards
-                );
-
-
-                document.getElementById("playerTotal").innerText =
-                    data.player_total;
-
-
-                document.getElementById("dealerTotal").innerText =
-                    data.dealer_total;
-
-
-                document.getElementById("result").innerText =
-                    data.message;
-
-
-                document.getElementById("playerMessage").innerText =
-                    "Game completed!";
-
-
-                updateStats(data);
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                alert(
-                    "Unable to connect to White Jack server."
-                );
-
-            } finally {
-
-                button.disabled = false;
-
-                button.innerText = "🎴 PLAY WHITE JACK";
-            }
-        }
-
-
-        // =========================
-        // DISPLAY CARDS
-        // =========================
-
-        function displayCards(elementId, cards) {
-
-            const container =
-                document.getElementById(elementId);
-
-
-            container.innerHTML = "";
-
-
-            cards.forEach(function (card) {
-
-                const cardElement =
-                    document.createElement("div");
-
-
-                cardElement.className =
-                    "playing-card";
-
-
-                cardElement.innerText = card;
-
-
-                container.appendChild(cardElement);
-
-            });
-        }
-
-
-        // =========================
-        // LEADERBOARD
-        // =========================
-
-        async function showLeaderboard() {
-
-            try {
-
-                const response =
-                    await fetch(API + "/leaderboard");
-
-
-                const data =
-                    await response.json();
-
-
-                const list =
-                    document.getElementById("leaderboardList");
-
-
-                list.innerHTML = "";
-
-
-                if (data.length === 0) {
-
-                    list.innerHTML =
-                        "<p>No players yet.</p>";
-
-                } else {
-
-                    data.forEach(function (player, index) {
-
-                        const row =
-                            document.createElement("div");
-
-
-                        row.className =
-                            "leader-row";
-
-
-                        row.innerHTML = `
-
-                        <span>${index + 1}</span>
-
-                        <span>${escapeHtml(player.name)}</span>
-
-                        <span>💰 ${player.coins}</span>
-
-                        <span>${player.wins}</span>
-
-                    `;
-
-
-                        list.appendChild(row);
-
-                    });
-                }
-
-
-                document.getElementById(
-                    "leaderboardArea"
-                ).style.display = "block";
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                alert("Unable to load leaderboard.");
-            }
-        }
-
-
-        // =========================
-        // HIDE LEADERBOARD
-        // =========================
-
-        function hideLeaderboard() {
-
-            document.getElementById(
-                "leaderboardArea"
-            ).style.display = "none";
-        }
-
-
-        // =========================
-        // SECURITY HELPER
-        // =========================
-
-        function escapeHtml(text) {
-
-            const div =
-                document.createElement("div");
-
-            div.innerText = text;
-
-            return div.innerHTML;
-        }
-
-
-    </script>
+    <!-- JAVASCRIPT -->
+    <script src="/js/app.js"></script>
 
 </body>
-
 </html>
